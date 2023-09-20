@@ -1,0 +1,15 @@
+POST {{host}}/messages
+Content-Type: application/json
+
+{
+    "message": "Hello World"
+}
+
+###
+
+GET {{host}}/messages/count
+Content-Type: application/json
+
+{
+    "message": "Hello World"
+}
