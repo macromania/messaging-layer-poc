@@ -1,4 +1,4 @@
-package com.backbase.dataverse.messagingpocexport.config;
+package com.backbase.dataverse.messagingpocexport;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties
 @ConfigurationProperties
 @Getter
-public class ServiceBusConfig {
+public class MessageBusConfig {
 
     private String connectionString;
     private String queueName;
