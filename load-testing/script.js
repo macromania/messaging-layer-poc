@@ -10,7 +10,7 @@ export default function () {
     const url = "http://localhost:8081/messages";
 
     const message = JSON.stringify({
-        message: "Hello World",
+        message: "Hello World - Timestamp: " + new Date().getTime(),
         sessionId: "123456",
     });
 

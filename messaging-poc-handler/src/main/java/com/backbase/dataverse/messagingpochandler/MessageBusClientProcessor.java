@@ -20,6 +20,7 @@ public class MessageBusClientProcessor implements SmartLifecycle {
 
     private final ServiceBusProcessorClient serviceBusProcessorClient;
     private boolean running;
+    private static long sequenceNumber = 0;
 
     public MessageBusClientProcessor(MessageBusClientBuilder messageBusClientBuilder) {
         log.info("Creating MessageBusClientProcessor");
@@ -28,8 +29,27 @@ public class MessageBusClientProcessor implements SmartLifecycle {
 
     private static void processMessage(ServiceBusReceivedMessageContext context) {
         ServiceBusReceivedMessage message = context.getMessage();
-        log.info("Processing message. Id: {}, Sequence #: {}. Contents: {}", message.getMessageId(), message.getSequenceNumber(), message.getBody());
-        log.info("Completing context, deleting message from queue");
+
+        long currentSequenceNumber = message.getSequenceNumber();
+
+        if(sequenceNumber == 0) {
+            log.info("First message received. Sequence #: {}", currentSequenceNumber);
+            sequenceNumber = currentSequenceNumber;
+        }
+
+        if (currentSequenceNumber - sequenceNumber > 1) {
+            log.warn("Sequence number gap detected. Expected: {}, Actual: {}", sequenceNumber + 1, currentSequenceNumber);
+        }
+
+        if (currentSequenceNumber - sequenceNumber == 1) {
+            log.info("Sequence is in order");
+        }
+
+        sequenceNumber = currentSequenceNumber;
+        log.info("Sequence #: {}", sequenceNumber);
+
+        //log.info("Processing message. Id: {}, Sequence #: {}. Contents: {}", message.getMessageId(), message.getSequenceNumber(), message.getBody());
+        //log.info("Completing context, deleting message from queue");
         context.complete();
     }
 

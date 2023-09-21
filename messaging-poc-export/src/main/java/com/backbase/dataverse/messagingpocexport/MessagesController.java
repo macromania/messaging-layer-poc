@@ -39,7 +39,7 @@ public class MessagesController {
         } catch (Exception e) {
             log.error("Error sending message: {}", e.getMessage());
             var error = SendMessageResult.builder()
-                    .message(e.getMessage() + ": Timestamp: " + System.currentTimeMillis())
+                    .message(e.getMessage())
                     .sessionId(request.getSessionId())
                     .success(false)
                     .build();
