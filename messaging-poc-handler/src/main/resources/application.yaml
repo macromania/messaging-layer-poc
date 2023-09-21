@@ -1,0 +1,11 @@
+spring:
+    config:
+        activate:
+            on-profile: poc
+
+server:
+    port : 8082
+
+servicebus:
+    connectionString: ${SERVICE_BUS_CONNECTION_STRING}
+    queueName: ${SERVICE_BUS_QUEUE_NAME}

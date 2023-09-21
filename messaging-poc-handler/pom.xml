@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.backbase.dataverse</groupId>
-    <artifactId>messaging-poc-export</artifactId>
+    <artifactId>messaging-poc-handler</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>messaging-poc-export</name>
-    <description>messaging-poc-export</description>
+    <name>messaging-poc-handler</name>
+    <description>messaging-poc-handler</description>
     <properties>
         <java.version>17</java.version>
     </properties>
