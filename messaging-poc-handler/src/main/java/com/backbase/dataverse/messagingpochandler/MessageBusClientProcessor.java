@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+/**
+ * Implementing SmartLifecycle to start and stop the processor client.
+ * https://github.com/Azure/azure-sdk-for-java/issues/29997
+ */
 public class MessageBusClientProcessor implements SmartLifecycle {
 
     private final ServiceBusProcessorClient serviceBusProcessorClient;

@@ -7,5 +7,6 @@ import lombok.Value;
 @Builder
 public class SendMessageResult {
     String message;
+    String sessionId;
     boolean success;
 }

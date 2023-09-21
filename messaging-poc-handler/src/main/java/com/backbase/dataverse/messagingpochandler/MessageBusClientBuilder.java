@@ -30,7 +30,7 @@ public class MessageBusClientBuilder {
 
         serviceBusProcessorClient = new ServiceBusClientBuilder()
                 .connectionString(appConfig.getServiceBus().getConnectionString())
-                .processor()
+                .sessionProcessor()
                 .receiveMode(ServiceBusReceiveMode.PEEK_LOCK)
                 .queueName(appConfig.getServiceBus().getQueueName())
                 .processMessage(processMessage)

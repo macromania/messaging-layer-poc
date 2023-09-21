@@ -2,7 +2,8 @@ POST {{host}}/messages
 Content-Type: application/json
 
 {
-    "message": "Hello World"
+    "message": "Hello World",
+    "sessionId": "1234567890"
 }
 
 ###

@@ -29,14 +29,18 @@ public class MessagesController {
 
     @PostMapping("/messages")
     public ResponseEntity<SendMessageResult> sendMessage(@RequestBody SendMessageRequest request) {
-        log.info("Sending message: {}", request.getMessage());
+        log.info("Sending message: {} with session: {}", request.getMessage(), request.getSessionId());
 
         try {
-            serviceBusSenderClient.sendMessage(new ServiceBusMessage(request.getMessage()));
+            var serviceBusMessage = new ServiceBusMessage(request.getMessage());
+            serviceBusMessage.setSessionId(request.getSessionId());
+
+            serviceBusSenderClient.sendMessage(serviceBusMessage);
         } catch (Exception e) {
             log.error("Error sending message: {}", e.getMessage());
             var error = SendMessageResult.builder()
-                    .message(e.getMessage())
+                    .message(e.getMessage() + ": Timestamp: " + System.currentTimeMillis())
+                    .sessionId(request.getSessionId())
                     .success(false)
                     .build();
 
