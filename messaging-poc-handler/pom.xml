@@ -18,6 +18,12 @@
     </properties>
     <dependencyManagement>
         <dependencies>
+            <!-- SnakeYAML 1.32 addresses CVE-2022-25857 and CVE-2022-38752 -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>2.0</version>
+            </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-sdk-bom</artifactId>
@@ -31,6 +37,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.1.2</version>
         </dependency>
 
         <dependency>

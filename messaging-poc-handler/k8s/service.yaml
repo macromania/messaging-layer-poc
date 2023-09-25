@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: handler-service
+spec:
+  ports:
+  - port: 8082
+    name: http
+  type: LoadBalancer
+  selector:
+    app: handler-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handler-service
+spec:
+  selector:
+    matchLabels:
+      app: handler-service
+  template:
+    metadata:
+      labels:
+        app: handler-service
+    spec:
+      containers:
+      - name: handler-service
+        image: handler-service-image
+        envFrom:
+          - configMapRef:
+              name: handler-service-config
+        ports:
+          - containerPort: 8082
