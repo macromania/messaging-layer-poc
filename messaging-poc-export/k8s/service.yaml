@@ -26,8 +26,23 @@ spec:
       containers:
       - name: export-service
         image: export-service-image
-        envFrom:
-          - configMapRef:
-              name: export-service-config
+        env:
+          - name: SERVICE_BUS_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: service-bus-secrets
+                key: SERVICE_BUS_CONNECTION_STRING
+          - name: SERVICE_BUS_QUEUE_NAME
+            valueFrom:
+              secretKeyRef:
+                name: service-bus-secrets
+                key: SERVICE_BUS_QUEUE_NAME
         ports:
           - containerPort: 8081
+        resources:
+          limits:
+            cpu: "2"
+            memory: "1024Mi"
+          requests:
+            cpu: "1"
+            memory: "512Mi"

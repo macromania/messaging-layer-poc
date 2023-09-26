@@ -75,7 +75,7 @@ When a message is locked, other clients receiving from the same queue or subscri
 
 The default value for the lock duration is 1 minute. 
 
-## Running The Samples
+## Running The Samples via IntelliJ
 
 You need to create an Azure Service Bus namespace and a queue to run the samples. The samples expect the following environment variables to be set:
 
@@ -110,4 +110,25 @@ Using [k6](https://k6.io/), you can load test the service bus queue. The `k6` sc
 
 ```bash
 ./test.sh
+```
+
+## Running the samples via local k8s cluster
+
+Create a new `.env` file and save it in the root directory of the project. The `.env` file should contain the following environment variables:
+
+```bash
+SERVICE_BUS_CONNECTION_STRING=<your-service-bus-connection-string>
+SERVICE_BUS_QUEUE_NAME=<your-service-bus-queue-name>
+```
+
+Run the following command to create a generic secret in the cluster:
+
+```bash
+kubectl create secret generic service-bus-secrets --from-env-file=.env
+```
+
+Run the following command to deploy the services to your cluster using [Skaffold](https://skaffold.dev/):
+
+```bash
+skaffold run
 ```
