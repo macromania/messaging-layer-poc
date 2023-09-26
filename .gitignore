@@ -27,3 +27,5 @@
 
 # Ignore local-backend-setup repo cloned into backbase-local for running the project dependencies
 backbase-local/
+
+.env
