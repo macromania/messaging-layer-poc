@@ -37,12 +37,7 @@ spec:
               secretKeyRef:
                 name: service-bus-secrets
                 key: SERVICE_BUS_QUEUE_NAME
+          - name: AZURE_LOG_LEVEL
+            value: "ERROR"
         ports:
           - containerPort: 8081
-        resources:
-          limits:
-            cpu: "2"
-            memory: "1024Mi"
-          requests:
-            cpu: "1"
-            memory: "512Mi"

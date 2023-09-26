@@ -15,6 +15,7 @@ kind: Deployment
 metadata:
   name: handler-service
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: handler-service
@@ -37,12 +38,7 @@ spec:
               secretKeyRef:
                 name: service-bus-secrets
                 key: SERVICE_BUS_QUEUE_NAME
+          - name: AZURE_LOG_LEVEL
+            value: "ERROR"
         ports:
           - containerPort: 8082
-        resources:
-          limits:
-            cpu: "2"
-            memory: "1024Mi"
-          requests:
-            cpu: "1"
-            memory: "512Mi"
