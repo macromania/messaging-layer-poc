@@ -29,6 +29,10 @@ public class MessagesController {
 
     @PostMapping("/messages")
     public ResponseEntity<SendMessageResult> sendMessage(@RequestBody SendMessageRequest request) {
+        // create a random session id out of session 1, 2, or 3
+        var randomSessionId = (int)(Math.random() * 3) + 1;
+        request.setSessionId("session" + randomSessionId);
+
         log.info("Sending message: {} with session: {}", request.getMessage(), request.getSessionId());
 
         try {

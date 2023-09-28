@@ -46,7 +46,7 @@ public class MessageBusClientProcessor implements SmartLifecycle {
         }
 
         sequenceNumber = currentSequenceNumber;
-        log.info("Sequence #: {}", sequenceNumber);
+        log.info("Sequence #: {}, sessionId: {}", sequenceNumber, message.getSessionId());
 
         //log.info("Processing message. Id: {}, Sequence #: {}. Contents: {}", message.getMessageId(), message.getSequenceNumber(), message.getBody());
         //log.info("Completing context, deleting message from queue");
