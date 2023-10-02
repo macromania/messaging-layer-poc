@@ -4,7 +4,7 @@ This sample demonstrates how to use Azure Service Bus FIFO Queues with the Azure
 
 ## Message sessions [Standard/Premium Tier]
 
-Azure Service Bus sessions enable joint and ordered handling of unbounded sequences of related messages. Sessions can be used in first in, first out (FIFO) and request-response patterns. 
+Azure Service Bus sessions enable joint and ordered handling of unbounded sequences of related messages. Sessions can be used in first in, first out (FIFO) and request-response patterns.
 
 Service Bus isn't prescriptive about the nature of the relationship between messages, and also doesn't define a particular model for determining where a message sequence starts or ends.
 
@@ -32,13 +32,11 @@ If messages just need to be retrieved in order, you don't need to use sessions. 
 
 The same session ID should be set on messages that belong together, which could be message 1, 4, and 8 in a set, and 2, 3, and 6 in another set.
 
-
 ## Duplicate detection [Standard/Premium Tier]
 
 If an application fails due to a fatal error immediately after it sends a message, and the restarted application instance erroneously believes that the prior message delivery didn't occur, a subsequent send causes the same message to appear in the system twice.
 
 It's also possible for an error at the client or network level to occur a moment earlier, and for a sent message to be committed into the queue, with the acknowledgment not successfully returned to the client. This scenario leaves the client in doubt about the outcome of the send operation.
-
 
 Enabling duplicate detection helps keep track of the application-controlled MessageId of all messages sent into a queue or topic during a specified time window. If any new message is sent with MessageId that was logged during the time window, the message is reported as accepted (the send operation succeeds), but the newly sent message is instantly ignored and dropped. No other parts of the message other than the MessageId are considered.
 
@@ -69,11 +67,11 @@ The upside of this mode is that the receiver doesn't need to take further action
 
 ### PeekLock
 
-The Peek-Lock mode tells the broker that the receiving client wants to settle received messages explicitly. The message is made available for the receiver to process, while held under an exclusive lock in the service so that other, competing receivers can't see it. The duration of the lock is initially defined at the queue or subscription level and can be extended by the client owning the lock, via the RenewLock operation. 
+The Peek-Lock mode tells the broker that the receiving client wants to settle received messages explicitly. The message is made available for the receiver to process, while held under an exclusive lock in the service so that other, competing receivers can't see it. The duration of the lock is initially defined at the queue or subscription level and can be extended by the client owning the lock, via the RenewLock operation.
 
 When a message is locked, other clients receiving from the same queue or subscription can take on locks and retrieve the next available messages not under active lock. When the lock on a message is explicitly released or when the lock expires, the message pops back up at or near the front of the retrieval order for redelivery.
 
-The default value for the lock duration is 1 minute. 
+The default value for the lock duration is 1 minute.
 
 ## Running The Samples via IntelliJ
 
@@ -114,11 +112,15 @@ Using [k6](https://k6.io/), you can load test the service bus queue. The `k6` sc
 
 ## Running the samples via local k8s cluster
 
+### Step 1: Creating Local Cluster
+
 Create a new [minikube](https://minikube.sigs.k8s.io/docs/start/) cluster:
 
 ```bash
 minikube start -p messaging-poc
 ```
+
+### Step 2: Setting up Azure Service Bus Connection
 
 Create a new `.env` file and save it in the root directory of the project. The `.env` file should contain the following environment variables:
 
@@ -132,6 +134,8 @@ Run the following command to create a generic secret in the cluster:
 ```bash
 kubectl create secret generic service-bus-secrets --from-env-file=.env
 ```
+
+### Step 3: Deploying Services
 
 Run the following command to deploy the services to your cluster using [Skaffold](https://skaffold.dev/):
 
@@ -152,6 +156,8 @@ Open a new terminal and run the following command to tunnel the services in the 
 ```bash
 minikube tunnel -p messaging-poc
 ```
+
+### Step 4: Testing
 
 Running following command in the `load-testing` folder will create ~15K messages in the queue:
 
