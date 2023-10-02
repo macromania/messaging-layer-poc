@@ -114,6 +114,12 @@ Using [k6](https://k6.io/), you can load test the service bus queue. The `k6` sc
 
 ## Running the samples via local k8s cluster
 
+Create a new [minikube](https://minikube.sigs.k8s.io/docs/start/) cluster:
+
+```bash
+minikube start -p messaging-poc
+```
+
 Create a new `.env` file and save it in the root directory of the project. The `.env` file should contain the following environment variables:
 
 ```bash
@@ -131,4 +137,36 @@ Run the following command to deploy the services to your cluster using [Skaffold
 
 ```bash
 skaffold run
+```
+
+> If new changes are not reflected in your image, run `skaffold run --cache-artifacts=false` to rebuild the images and deploy to local cluster.
+
+Make sure everything is deployed by running following command. You should see 1 pod running `export-service` and 3 pods running `handler-service`:
+
+```bash
+kubectl get all
+```
+
+Open a new terminal and run the following command to tunnel the services in the cluster:
+
+```bash
+minikube tunnel -p messaging-poc
+```
+
+Running following command in the `load-testing` folder will create ~15K messages in the queue:
+
+```bash
+./test.sh
+```
+
+When investigating the logs of the `handler-service` pods, you should see that the messages are processed in order for a given session:
+
+```bash
+kubectl logs -f <handler-service-pod-name>
+```
+
+You can query the number of messages in the queue via `export-service`, or open the service bus namespace in the Azure portal:
+
+```bash
+curl http://localhost:8081/messages/count
 ```
